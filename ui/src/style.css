@@ -312,6 +312,21 @@ html.mdsight-finding .mdsight-notice {
   color: #1f2328;
 }
 
+/* ライトテーマでは、コードと表の灰色が白と見分けにくいため、github-markdown-css より少し暗くする */
+:root[data-theme="light"] .markdown-body pre,
+:root[data-theme="light"] .markdown-body table tr:nth-child(2n) {
+  background-color: #eff2f5;
+}
+
+:root[data-theme="light"] .markdown-body :not(pre) > code {
+  background-color: #818b9833;
+}
+
+:root[data-theme="light"] .markdown-body table th,
+:root[data-theme="light"] .markdown-body table td {
+  border-color: #c4ccd5;
+}
+
 /* コードブロックの枠と、右上のコピーのボタン。ボタンはマウスを載せている間とフォーカスがある間だけ出す */
 .mdsight-code {
   position: relative;
