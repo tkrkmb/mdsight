@@ -11,7 +11,8 @@ let icons = URL(fileURLWithPath: CommandLine.arguments[0])
     .deletingLastPathComponent()
     .deletingLastPathComponent()
     .appendingPathComponent("src-tauri/icons")
-var queue = ["icon", "icon-dark"]
+// icon-linux* は、GNOMEなどに合わせて余白を落とした版（まだ実行ファイルには埋め込まない）
+var queue = ["icon", "icon-dark", "icon-linux", "icon-linux-dark"]
 
 class Renderer: NSObject, WKNavigationDelegate {
     let web = WKWebView(frame: NSRect(x: 0, y: 0, width: size, height: size))
