@@ -9,6 +9,10 @@ To release a new version, rename the "Unreleased" heading to `## [vX.Y.Z] - YYYY
 
 ## [Unreleased]
 
+### Changed
+
+- In the light theme, code blocks, inline code, table stripes, and table borders are slightly darker so they stand out from the white background.
+
 ## [v0.12.0] - 2026-09-26
 
 ### Added
