@@ -163,9 +163,11 @@ fn main() {
             set_app_icon
         ])
         .setup(move |app| {
-            if let Some(window) = app.get_webview_window("main") {
-                window.set_title(runtime_mode.title())?;
-            }
+            // 窓は、タイトルを決めてから作る。Waylandでは、作った後に変えたタイトルがタイトルバーに出ないため
+            tauri::WebviewWindowBuilder::new(app, "main", tauri::WebviewUrl::default())
+                .title(runtime_mode.title())
+                .inner_size(900.0, 1000.0)
+                .build()?;
             let handle = app.handle().clone();
             match launch {
                 Launch::Nvim(args) => {

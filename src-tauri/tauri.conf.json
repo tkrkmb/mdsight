@@ -8,14 +8,7 @@
     "frontendDist": "../ui/dist"
   },
   "app": {
-    "windows": [
-      {
-        "label": "main",
-        "title": "MdSight",
-        "width": 900,
-        "height": 1000
-      }
-    ],
+    "windows": [],
     "security": {
       "csp": "default-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' asset: http://asset.localhost https: data:; font-src 'self' data:; connect-src 'self' ipc: http://ipc.localhost",
       "assetProtocol": {
