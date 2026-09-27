@@ -9,6 +9,10 @@ To release a new version, rename the "Unreleased" heading to `## [vX.Y.Z] - YYYY
 
 ## [Unreleased]
 
+### Fixed
+
+- On Linux with Wayland, the title bar shows whether the window is read-only or linked to Neovim, instead of just "MdSight".
+
 ### Changed
 
 - In the light theme, code blocks, inline code, table stripes, and table borders are slightly darker so they stand out from the white background.
