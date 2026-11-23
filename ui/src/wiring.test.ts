@@ -115,6 +115,19 @@ test("main.ts wires rendering, following, clicks, keys and search together", asy
   body.querySelector("h1")!.dispatchEvent(new MouseEvent("click", { bubbles: true, ctrlKey: true }));
   expect(calls.filter((call) => call.command === "jump").at(-1)?.args).toEqual({ gen: 1, version: 2, line: 1 });
 
+  // 修飾キーなしでは、1回のクリックはジャンプせず、ダブルクリックでジャンプする
+  const jumps = () => calls.filter((call) => call.command === "jump");
+  const before = jumps().length;
+  body.querySelector("h1")!.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  expect(jumps().length).toBe(before);
+  body.querySelector("p")!.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+  expect(jumps().at(-1)?.args).toEqual({ gen: 1, version: 2, line: 3 });
+  // リンクとコピーのボタンのダブルクリックは、それぞれのクリックの動作に任せる
+  const afterParagraph = jumps().length;
+  body.querySelector("a")!.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+  body.querySelector(".mdsight-copy")!.dispatchEvent(new MouseEvent("dblclick", { bubbles: true }));
+  expect(jumps().length).toBe(afterParagraph);
+
   // 通常のクリックでは、相対パスの .md リンクを開く
   body.querySelector("a")!.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
   await vi.waitFor(() => expect(calls.some((call) => call.command === "open_link")).toBe(true));
