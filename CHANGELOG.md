@@ -9,6 +9,10 @@ To release a new version, rename the "Unreleased" heading to `## [vX.Y.Z] - YYYY
 
 ## [Unreleased]
 
+### Added
+
+- Double-click in the preview to move the Neovim cursor to that line, as Cmd+click (Ctrl+click on Linux) does.
+
 ### Changed
 
 - The lazy.nvim spec in the README no longer lazy-loads on `ft = "markdown"`, so `:checkhealth mdsight` works in any buffer.
