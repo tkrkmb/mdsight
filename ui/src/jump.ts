@@ -34,7 +34,31 @@ function nearestBlock(clientY: number): Block | null {
   return best;
 }
 
-/** 本文のクリックを、リンクの処理と、修飾クリックによるNeovimへのジャンプに振り分ける */
+/** クリックした位置のブロック（コードブロックの中なら、その行）へのジャンプをNeovimに求める */
+function requestJump(event: MouseEvent): void {
+  // 描画を待っている間は無視する
+  if (view.rendering) {
+    return;
+  }
+  const target = event.target instanceof Element ? event.target : null;
+  const block = (target !== null ? blockAt(target) : null) ?? nearestBlock(event.clientY);
+  if (block === null) {
+    return;
+  }
+  // コードブロックの中なら、クリックした位置のコードの行へ（囲いや余白の上なら、ブロックの開始行へ）
+  const lines = codeLinesOf(block);
+  const codeLine = lines !== null && target !== null && lines.pre.contains(target) ? codeLineAt(lines, event.clientY) : null;
+  // スタンドアローンモードでは Neovim につながっていないので、失敗は捨てる
+  invoke("jump", { gen: view.gen, version: view.version, line: codeLine ?? block.startLine }).catch(() => {});
+}
+
+/** ダブルクリックでジャンプさせない場所（1回のクリックに自分の動作があるもの） */
+const OWN_CLICK = "a, summary, .mdsight-copy";
+
+/**
+ * 本文のクリックを、リンクの処理と、Neovimへのジャンプに振り分ける。
+ * ジャンプするのは、修飾クリックと、修飾キーなしのダブルクリック。
+ */
 export function initClicks(): void {
   body.addEventListener("click", (event) => {
     if (!isModifiedClick(event)) {
@@ -43,18 +67,16 @@ export function initClicks(): void {
     }
     // 修飾クリックのときは、リンクの通常動作を止める
     event.preventDefault();
-    // 描画を待っている間は無視する
-    if (view.rendering) {
+    requestJump(event);
+  });
+  body.addEventListener("dblclick", (event) => {
+    // 修飾クリックは、1回ずつのクリックでジャンプ済み
+    if (isModifiedClick(event)) {
       return;
     }
-    const target = event.target instanceof Element ? event.target : null;
-    const block = (target !== null ? blockAt(target) : null) ?? nearestBlock(event.clientY);
-    if (block === null) {
+    if (event.target instanceof Element && event.target.closest(OWN_CLICK) !== null) {
       return;
     }
-    // コードブロックの中なら、クリックした位置のコードの行へ（囲いや余白の上なら、ブロックの開始行へ）
-    const lines = codeLinesOf(block);
-    const codeLine = lines !== null && target !== null && lines.pre.contains(target) ? codeLineAt(lines, event.clientY) : null;
-    void invoke("jump", { gen: view.gen, version: view.version, line: codeLine ?? block.startLine });
+    requestJump(event);
   });
 }
