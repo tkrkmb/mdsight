@@ -410,9 +410,16 @@ local function spawn(sock, token)
   return true
 end
 
+-- bin を省略したときの実行ファイル。build.lua と手動の展開は、どちらも
+-- プラグインのディレクトリ（このファイルの3つ上）の直下に置く。
+local function default_bin()
+  local here = debug.getinfo(1, "S").source:sub(2)
+  return vim.fs.joinpath(vim.fn.fnamemodify(here, ":p:h:h:h"), "mdsight")
+end
+
 function M.setup(opts)
   opts = opts or {}
-  state.bin = opts.bin
+  state.bin = opts.bin or default_bin()
 
   vim.api.nvim_create_user_command("MdSight", function()
     M.open()

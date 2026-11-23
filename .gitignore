@@ -27,3 +27,6 @@ secrets/
 # OSやエディタが作るもの
 .DS_Store
 *.swp
+
+# build.lua が置く実行ファイル（lazy.nvim の更新を妨げないように追跡しない）
+/mdsight
