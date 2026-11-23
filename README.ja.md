@@ -1,5 +1,9 @@
 # MdSight
 
+[![test](https://github.com/tkrkmb/mdsight/actions/workflows/test.yml/badge.svg)](https://github.com/tkrkmb/mdsight/actions/workflows/test.yml)
+[![release](https://img.shields.io/github/v/release/tkrkmb/mdsight)](https://github.com/tkrkmb/mdsight/releases/latest)
+[![license](https://img.shields.io/github/license/tkrkmb/mdsight)](LICENSE)
+
 [English](README.md) | 日本語
 
 Neovimで編集中のMarkdownを、保存しなくてもGitHub風の表示で別ウィンドウにプレビューします。カーソル位置に追従してスクロールし、プレビュー側のクリックでNeovimの該当行へ移動できます。`mdsight ファイル名`で、Neovimなしの読み取り専用ビューアとしても使えます。

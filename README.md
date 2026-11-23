@@ -1,5 +1,9 @@
 # MdSight
 
+[![test](https://github.com/tkrkmb/mdsight/actions/workflows/test.yml/badge.svg)](https://github.com/tkrkmb/mdsight/actions/workflows/test.yml)
+[![release](https://img.shields.io/github/v/release/tkrkmb/mdsight)](https://github.com/tkrkmb/mdsight/releases/latest)
+[![license](https://img.shields.io/github/license/tkrkmb/mdsight)](LICENSE)
+
 English | [日本語](README.ja.md)
 
 Preview the Markdown you are editing in Neovim in a separate, GitHub-style window, without saving. The preview scrolls to follow your cursor, and a click in the preview moves Neovim to that line. `mdsight <file>` also works as a read-only viewer without Neovim.

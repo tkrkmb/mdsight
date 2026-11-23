@@ -103,6 +103,7 @@ chore(ui): bundle mermaid so the preview works offline
 
 - 利用者に見える文言（ウィンドウ内の表示とラベル、端末への出力、`vim.notify`）は英語にする。README と CHANGELOG は、英語（`README.md`、`CHANGELOG.md`）と日本語（`README.ja.md`、`CHANGELOG.ja.md`）の両方を用意し、同じ内容に保つ。どちらかを変えたら、もう一方も同じコミットで直す
 - README などのドキュメントには、特定の版（`vX.Y.Z`）を書かない。導入手順は、最新の Release を指すURLを使う（`CHANGELOG.md`・`CHANGELOG.ja.md` の見出しは除く）
+- README（英語版と日本語版）の先頭に、テストのCI（GitHubの `badge.svg`）、最新の版（shields.io）、ライセンス（shields.io）のバッジを置く。版はバッジで自動で出し、版の文字列を直接書かない
 - 利用者から見える変更をコミットしたら、`CHANGELOG.md` の「Unreleased」と `CHANGELOG.ja.md` の「未リリース」の節にも書き足す。版を出すときは、両方の見出しを `## [vX.Y.Z] - YYYY-MM-DD` に書き換えてからタグを付ける
 
 ### Neovimプラグイン（Lua）
