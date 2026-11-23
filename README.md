@@ -19,7 +19,7 @@ If `:MdSight` does not open the preview, run `:checkhealth mdsight`. It checks t
 Add this spec. On install and update, `build.lua` downloads the executable of the same version as the plugin, so the two always match. No `bin` setting is needed.
 
 ```lua
-{ "tkrkmb/mdsight", version = "*", build = "build.lua", ft = "markdown", opts = {} }
+{ "tkrkmb/mdsight", version = "*", build = "build.lua", opts = {} }
 ```
 
 Open a Markdown file and run `:MdSight`. If the text shows up in a new window, you are done.

@@ -49,7 +49,7 @@ DO NOT
 
 DO
 
-- lazy.nvim では、`{ "tkrkmb/mdsight", version = "*", build = "build.lua", ft = "markdown", opts = {} }` だけで導入できるようにする
+- lazy.nvim では、`{ "tkrkmb/mdsight", version = "*", build = "build.lua", opts = {} }` だけで導入できるようにする。遅延読み込み（`ft`、`cmd`）は勧めない（読み込まれる前は `:checkhealth mdsight` が見つからないため）
 - リポジトリのルートに `build.lua` を置く。lazy.nvim が導入と更新のたびに実行する
   - プラグインのディレクトリの `src-tauri/Cargo.toml` から版を読み、`releases/download/v<版>/` から、OSに合う `tar.gz`（macOSは `mdsight-universal-macos.tar.gz`、Linuxの x86_64 は `mdsight-x86_64-linux.tar.gz`）を取得する。それ以外のOSとCPUでは、理由を出して失敗する
   - 取得と展開には、`curl` と `tar` を `vim.system` で、引数の配列で実行する。一時ディレクトリに展開し、実行ファイルだけを、プラグインのディレクトリの直下に `mdsight` として置く
@@ -58,7 +58,7 @@ DO
 - `:checkhealth mdsight` を、`lua/mdsight/health.lua` で提供する。次の項目を調べ、それぞれ成功／警告／失敗を出す
   - Neovimが0.10以上であること
   - `setup` が呼ばれていること
-  - 使う実行ファイル（`bin`、なければ既定の場所）が存在し、実行できること。なければ、lazy.nvim の `:Lazy build mdsight` か、READMEの手動の手順を案内する
+  - 使う実行ファイル（`bin`、なければ既定の場所）が存在し、実行できること。なければ、lazy.nvim の `:Lazy build mdsight`、READMEの手動の手順、ソースからビルドしたときの `cargo tauri build --no-bundle` を案内する（版が違うときも同じ）
   - 実行ファイルの `--version` の版が、プラグインのディレクトリの `src-tauri/Cargo.toml` の版と一致すること（`Cargo.toml` がなければ、調べなかったことを出す）
   - Linuxでは、実行ファイルに `ldd` を実行し、見つからないライブラリがないこと。あれば、その名前を並べ、WebKitGTK 4.1 の導入を案内する
 

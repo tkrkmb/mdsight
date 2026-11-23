@@ -19,7 +19,7 @@ macOS（Intel / Apple Silicon）とLinux（x86_64）、Neovim 0.10以上に対�
 次の設定を足します。導入と更新のたびに、`build.lua`がプラグインと同じ版の実行ファイルを取得するので、両者の版は常にそろいます。`bin`の設定は要りません。
 
 ```lua
-{ "tkrkmb/mdsight", version = "*", build = "build.lua", ft = "markdown", opts = {} }
+{ "tkrkmb/mdsight", version = "*", build = "build.lua", opts = {} }
 ```
 
 Markdownファイルを開いて`:MdSight`を実行し、別ウィンドウに本文が出れば完了です。

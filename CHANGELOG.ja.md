@@ -9,6 +9,11 @@ MdSightの利用者から見える変更を、版ごとに記録します。
 
 ## [未リリース]
 
+### 変更
+
+- READMEのlazy.nvimの設定から`ft = "markdown"`の遅延読み込みを外し、どのバッファでも`:checkhealth mdsight`が動くようにしました。
+- ソースからビルドした場合に、`:checkhealth mdsight`が`cargo tauri build --no-bundle`でのビルドし直しも案内するようにしました。
+
 ## [v0.13.0] - 2026-11-23
 
 ### 追加

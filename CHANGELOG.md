@@ -9,6 +9,11 @@ To release a new version, rename the "Unreleased" heading to `## [vX.Y.Z] - YYYY
 
 ## [Unreleased]
 
+### Changed
+
+- The lazy.nvim spec in the README no longer lazy-loads on `ft = "markdown"`, so `:checkhealth mdsight` works in any buffer.
+- `:checkhealth mdsight` also tells you to rebuild with `cargo tauri build --no-bundle` when you built MdSight from source.
+
 ## [v0.13.0] - 2026-11-23
 
 ### Added
