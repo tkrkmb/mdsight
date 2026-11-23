@@ -12,6 +12,8 @@ Preview the Markdown you are editing in Neovim in a separate, GitHub-style windo
 
 Supports macOS (Intel / Apple Silicon) and Linux (x86_64), with Neovim 0.10 or later. Linux needs WebKitGTK 4.1 (on Fedora: `sudo dnf install webkit2gtk4.1`).
 
+If `:MdSight` does not open the preview, run `:checkhealth mdsight`. It checks the executable, its version, and on Linux the shared libraries.
+
 ### lazy.nvim
 
 Add this spec. On install and update, `build.lua` downloads the executable of the same version as the plugin, so the two always match. No `bin` setting is needed.

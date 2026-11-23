@@ -13,6 +13,7 @@ To release a new version, rename the "Unreleased" heading to `## [vX.Y.Z] - YYYY
 
 - Install with lazy.nvim in one line: `build.lua` downloads the executable of the same version as the plugin.
 - `bin` in `setup()` is now optional. Without it, the `mdsight` executable in the plugin directory is used.
+- `:checkhealth mdsight` checks the executable, its version, and on Linux the shared libraries.
 
 ## [v0.12.1] - 2026-11-23
 

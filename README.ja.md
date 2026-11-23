@@ -12,6 +12,8 @@ Neovimで編集中のMarkdownを、保存しなくてもGitHub風の表示で別
 
 macOS（Intel / Apple Silicon）とLinux（x86_64）、Neovim 0.10以上に対応しています。LinuxではWebKitGTK 4.1が必要です（Fedoraなら`sudo dnf install webkit2gtk4.1`）。
 
+`:MdSight`でプレビューが開かないときは、`:checkhealth mdsight`を実行してください。実行ファイルの有無と版、Linuxでは共有ライブラリを調べます。
+
 ### lazy.nvim
 
 次の設定を足します。導入と更新のたびに、`build.lua`がプラグインと同じ版の実行ファイルを取得するので、両者の版は常にそろいます。`bin`の設定は要りません。
