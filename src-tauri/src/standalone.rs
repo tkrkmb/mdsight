@@ -3,7 +3,7 @@ use std::sync::mpsc::channel;
 use std::sync::Mutex;
 use std::time::Duration;
 
-use notify::{RecommendedWatcher, RecursiveMode, Watcher};
+use notify::{EventKind, RecommendedWatcher, RecursiveMode, Watcher};
 use tauri::{AppHandle, Manager};
 
 use crate::render;
@@ -107,8 +107,13 @@ pub fn watch(app: AppHandle, path: PathBuf) -> Result<(), String> {
     Ok(())
 }
 
+/// 中身が変わりうるイベントだけを拾う。読み取り（`Access`）を拾うと、
+/// 読み直しで自分が開いたことにも反応して、読み直しが止まらなくなる。
 fn touches(event: &notify::Event, path: &Path) -> bool {
-    event.paths.iter().any(|candidate| candidate == path)
+    matches!(
+        event.kind,
+        EventKind::Create(_) | EventKind::Modify(_) | EventKind::Remove(_)
+    ) && event.paths.iter().any(|candidate| candidate == path)
 }
 
 /// 現在の世代のまま、版だけを1増やして読み直す。読み直しに失敗したら表示は変えない。
@@ -175,8 +180,10 @@ pub fn file_name(path: &Path) -> String {
 
 #[cfg(test)]
 mod tests {
-    use super::{load, open};
+    use super::{load, open, touches};
     use crate::resolve::is_markdown;
+    use notify::event::{AccessKind, AccessMode, CreateKind, ModifyKind, RenameMode};
+    use notify::{Event, EventKind};
     use std::fs;
     use std::path::{Path, PathBuf};
 
@@ -240,5 +247,39 @@ mod tests {
         assert_eq!(document.generation, 3);
         assert_eq!(document.version, 8);
         assert!(document.html.contains("other"), "{}", document.html);
+    }
+
+    #[test]
+    fn ignores_reads_of_the_watched_file() {
+        let path = Path::new("/docs/note.md");
+        for kind in [
+            EventKind::Access(AccessKind::Open(AccessMode::Any)),
+            EventKind::Access(AccessKind::Close(AccessMode::Read)),
+        ] {
+            let event = Event::new(kind).add_path(path.to_path_buf());
+            assert!(!touches(&event, path), "{kind:?}");
+        }
+    }
+
+    #[test]
+    fn follows_writes_and_replacements_of_the_watched_file() {
+        let path = Path::new("/docs/note.md");
+        let write = Event::new(EventKind::Modify(ModifyKind::Any)).add_path(path.to_path_buf());
+        let create = Event::new(EventKind::Create(CreateKind::File)).add_path(path.to_path_buf());
+        // 一時ファイルに書いてから名前を変える保存（Coding Agent やエディタが使う）
+        let rename = Event::new(EventKind::Modify(ModifyKind::Name(RenameMode::Both)))
+            .add_path(PathBuf::from("/docs/note.md.tmp.1"))
+            .add_path(path.to_path_buf());
+        for event in [write, create, rename] {
+            assert!(touches(&event, path), "{event:?}");
+        }
+    }
+
+    #[test]
+    fn ignores_changes_to_other_files() {
+        let path = Path::new("/docs/note.md");
+        let event = Event::new(EventKind::Modify(ModifyKind::Any))
+            .add_path(PathBuf::from("/docs/other.md"));
+        assert!(!touches(&event, path));
     }
 }
