@@ -9,6 +9,8 @@ To release a new version, rename the "Unreleased" heading to `## [vX.Y.Z] - YYYY
 
 ## [Unreleased]
 
+## [v0.13.0] - 2026-11-23
+
 ### Added
 
 - Install with lazy.nvim in one line: `build.lua` downloads the executable of the same version as the plugin.
