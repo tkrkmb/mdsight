@@ -9,6 +9,8 @@ To release a new version, rename the "Unreleased" heading to `## [vX.Y.Z] - YYYY
 
 ## [Unreleased]
 
+## [v0.12.1] - 2026-11-23
+
 ### Fixed
 
 - On Linux with Wayland, the title bar shows whether the window is read-only or linked to Neovim, instead of just "MdSight".
