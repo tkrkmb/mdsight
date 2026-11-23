@@ -12,7 +12,25 @@ Neovimで編集中のMarkdownを、保存しなくてもGitHub風の表示で別
 
 macOS（Intel / Apple Silicon）とLinux（x86_64）、Neovim 0.10以上に対応しています。LinuxではWebKitGTK 4.1が必要です（Fedoraなら`sudo dnf install webkit2gtk4.1`）。
 
-実行ファイルとプラグインを、Neovimのパッケージ用ディレクトリに展開します。プラグインマネージャーは要りません。コマンドは常に最新の版を取得します。
+### lazy.nvim
+
+次の設定を足します。導入と更新のたびに、`build.lua`がプラグインと同じ版の実行ファイルを取得するので、両者の版は常にそろいます。`bin`の設定は要りません。
+
+```lua
+{ "tkrkmb/mdsight", version = "*", build = "build.lua", ft = "markdown", opts = {} }
+```
+
+Markdownファイルを開いて`:MdSight`を実行し、別ウィンドウに本文が出れば完了です。
+
+| やること | 方法 |
+| --- | --- |
+| 最新の版に更新する | `:Lazy update mdsight`（変更点は[CHANGELOG.ja.md](CHANGELOG.ja.md)） |
+| 実行ファイルを取り直す | `:Lazy build mdsight` |
+| 削除する | 設定を消し、`:Lazy clean`を実行する |
+
+### プラグインマネージャーを使わない場合
+
+実行ファイルとプラグインを、Neovimのパッケージ用ディレクトリに展開します。コマンドは常に最新の版を取得します。
 
 ```sh
 DIR=~/.local/share/nvim/site/pack/mdsight/start/mdsight
@@ -25,17 +43,15 @@ curl -fL https://github.com/tkrkmb/mdsight/releases/latest/download/mdsight-x86_
   | tar -xz --strip-components=1 -C "$DIR"
 ```
 
-`~/.config/nvim/init.lua`に次の1行を足します（`init.vim`なら先頭に`lua `を付けます）。
+`~/.config/nvim/init.lua`に次の1行を足します（`init.vim`なら先頭に`lua `を付けます）。プラグインと一緒に展開した実行ファイルを使うので、`bin`の設定は要りません。
 
 ```lua
-require("mdsight").setup({ bin = vim.fn.stdpath("data") .. "/site/pack/mdsight/start/mdsight/mdsight" })
+require("mdsight").setup()
 ```
 
 Markdownファイルを開いて`:MdSight`を実行し、別ウィンドウに本文が出れば完了です。
 
 データディレクトリを変えている場合は、`~/.local/share/nvim`を`:lua print(vim.fn.stdpath("data"))`の結果に置き換えてください。macOSでブラウザからダウンロードした場合は、署名していないため起動を拒まれることがあります。そのときは`xattr -dr com.apple.quarantine ~/.local/share/nvim/site/pack/mdsight/start/mdsight/mdsight`を実行してください。
-
-### 更新・削除
 
 | やること | 方法 |
 | --- | --- |
@@ -43,6 +59,8 @@ Markdownファイルを開いて`:MdSight`を実行し、別ウィンドウに�
 | 最新の版に更新する | 展開のコマンドをもう一度実行する（変更点は[CHANGELOG.ja.md](CHANGELOG.ja.md)） |
 | 特定の版を入れる | URLの`latest/download`を`download/<版>`に置き換える（版は[Releases](https://github.com/tkrkmb/mdsight/releases)） |
 | 削除する | `~/.local/share/nvim/site/pack/mdsight`を消し、`init.lua`の1行を消す |
+
+別の場所の実行ファイルを使うときは、そのパスを渡します：`require("mdsight").setup({ bin = "/path/to/mdsight" })`。
 
 ## 使い方
 

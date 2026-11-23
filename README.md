@@ -12,7 +12,25 @@ Preview the Markdown you are editing in Neovim in a separate, GitHub-style windo
 
 Supports macOS (Intel / Apple Silicon) and Linux (x86_64), with Neovim 0.10 or later. Linux needs WebKitGTK 4.1 (on Fedora: `sudo dnf install webkit2gtk4.1`).
 
-Extract the executable and the plugin into a Neovim package directory. No plugin manager is needed. The commands always fetch the latest release.
+### lazy.nvim
+
+Add this spec. On install and update, `build.lua` downloads the executable of the same version as the plugin, so the two always match. No `bin` setting is needed.
+
+```lua
+{ "tkrkmb/mdsight", version = "*", build = "build.lua", ft = "markdown", opts = {} }
+```
+
+Open a Markdown file and run `:MdSight`. If the text shows up in a new window, you are done.
+
+| Task | How |
+| --- | --- |
+| Update to the latest version | `:Lazy update mdsight` (see [CHANGELOG.md](CHANGELOG.md) for changes) |
+| Download the executable again | `:Lazy build mdsight` |
+| Uninstall | Remove the spec and run `:Lazy clean` |
+
+### Without a plugin manager
+
+Extract the executable and the plugin into a Neovim package directory. The commands always fetch the latest release.
 
 ```sh
 DIR=~/.local/share/nvim/site/pack/mdsight/start/mdsight
@@ -25,17 +43,15 @@ curl -fL https://github.com/tkrkmb/mdsight/releases/latest/download/mdsight-x86_
   | tar -xz --strip-components=1 -C "$DIR"
 ```
 
-Add this line to `~/.config/nvim/init.lua` (in `init.vim`, prefix it with `lua `).
+Add this line to `~/.config/nvim/init.lua` (in `init.vim`, prefix it with `lua `). The executable next to the plugin is used, so no `bin` setting is needed.
 
 ```lua
-require("mdsight").setup({ bin = vim.fn.stdpath("data") .. "/site/pack/mdsight/start/mdsight/mdsight" })
+require("mdsight").setup()
 ```
 
 Open a Markdown file and run `:MdSight`. If the text shows up in a new window, you are done.
 
 If you have changed your data directory, replace `~/.local/share/nvim` with the output of `:lua print(vim.fn.stdpath("data"))`. On macOS, if you downloaded the archive with a browser, the unsigned executable may be refused. In that case, run `xattr -dr com.apple.quarantine ~/.local/share/nvim/site/pack/mdsight/start/mdsight/mdsight`.
-
-### Updating and uninstalling
 
 | Task | How |
 | --- | --- |
@@ -43,6 +59,8 @@ If you have changed your data directory, replace `~/.local/share/nvim` with the 
 | Update to the latest version | Run the extract command again (see [CHANGELOG.md](CHANGELOG.md) for changes) |
 | Install a specific version | Replace `latest/download` in the URL with `download/<version>` (versions are listed under [Releases](https://github.com/tkrkmb/mdsight/releases)) |
 | Uninstall | Delete `~/.local/share/nvim/site/pack/mdsight` and remove the line from `init.lua` |
+
+To use an executable somewhere else, pass its path: `require("mdsight").setup({ bin = "/path/to/mdsight" })`.
 
 ## Usage
 
