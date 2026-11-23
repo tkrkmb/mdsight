@@ -39,6 +39,7 @@ local function check_executable(bin)
     vim.health.error("executable not found: " .. bin, {
       "With lazy.nvim, run :Lazy build mdsight",
       "Without a plugin manager, run the extract command in the README again",
+      "If you built it from source, run cargo tauri build --no-bundle",
     })
     return false
   end
@@ -65,6 +66,7 @@ local function check_version(bin, root)
     vim.health.warn(("executable version %s differs from the plugin version %s"):format(tostring(actual), expected), {
       "With lazy.nvim, run :Lazy build mdsight",
       "Without a plugin manager, extract the plugin and the executable from the same release",
+      "If you built it from source, run cargo tauri build --no-bundle",
     })
   end
 end
