@@ -12,6 +12,7 @@ To release a new version, rename the "Unreleased" heading to `## [vX.Y.Z] - YYYY
 ### Fixed
 
 - On Linux with Wayland, the title bar shows whether the window is read-only or linked to Neovim, instead of just "MdSight".
+- In read-only mode, the view no longer keeps reloading after another program reads the file, so images and diagrams show up again after the file is edited by tools such as coding agents.
 
 ### Changed
 
